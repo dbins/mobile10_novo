@@ -20,6 +20,7 @@
 		var carga_imagens_completa =  0;
 		var carga_completa =  0;
 		var tmp_arrayImagens = [];
+		var isConnected = false;
 		 // alert dialog dismissed
 		function alertDismissed() {
 			// do something
@@ -173,6 +174,22 @@
 			$("#menu_miss3").hide();
 			$("#menu_miss4").hide();
 		}
+		
+		function ValidarNavegacao(){
+			if (isPhoneGapReady){
+				if (isConnected) {
+					//Continuar
+				} else {
+					navigator.notification.alert('Não existe conexão com a Internet', alertDismissed, 'Miss Trendy', 'OK');
+					$.mobile.changePage("#menu_novo");
+				}				
+			} else {
+				navigator.notification.alert('O aplicativo não está pronto!', alertDismissed, 'Miss Trendy', 'OK');
+				$.mobile.changePage("#menu_novo");
+			}
+		}
+		
+		
 		//function updateOrientation(e) {
 			
 		//	switch (e.orientation) {
@@ -198,7 +215,7 @@
 		
 		
 		$(document).on('pageinit', '#noticias', function(){  
-			
+			ValidarNavegacao();
 			//Noticias
 			$.ajax({
 				type: "GET",
@@ -230,8 +247,9 @@
 		});	
 		
 		$(document).on('pageinit', '#faleconosco', function(){  
-        $(document).on('click', '#enviar_contato', function() { // catch the form's submit event
-		
+        $(document).on('click', '#enviar_contato', function() { 
+			// catch the form's submit event
+			ValidarNavegacao();
 			var field_tag_css = {
 				"background-color": "#FFFF99"
 			  };
@@ -289,7 +307,7 @@
 							
 							if(result =="OK") {
 								navigator.notification.alert('Obrigado por enviar sua mensagem!', alertDismissed, 'Miss Trendy', 'OK'); 
-								$.mobile.changePage("#index");							
+								$.mobile.changePage("#menu_novo");							
 							} else {
 							    navigator.notification.alert('Erro ao gravar suas informacoes!', alertDismissed, 'Miss Trendy', 'OK'); 
 							}
@@ -311,7 +329,7 @@
 			if (sistema_online == "NAO"){
 				if (carga_dados_completa == 0) {
 					navigator.notification.alert('Nao existe conexao com a Internet. Se deseja acessar o catalogo offline, voce precisa primeiro baixar os arquivos quando a conexao estiver disponivel', alertDismissed, 'Miss Trendy', 'OK');
-					$.mobile.changePage("#index");
+					$.mobile.changePage("#menu_novo");
 				}
 			}
 			
@@ -326,7 +344,7 @@
 			if (sistema_online == "NAO"){
 				if (carga_dados_completa == 0) {
 					navigator.notification.alert('Nao existe conexao com a Internet. Se deseja acessar o catalogo offline, voce precisa primeiro baixar os arquivos quando a conexao estiver disponivel', alertDismissed, 'Miss Trendy', 'OK');
-					$.mobile.changePage("#index");
+					$.mobile.changePage("#menu_novo");
 				}
 			}
 			
@@ -342,7 +360,7 @@
 			if (sistema_online == "NAO"){
 				if (carga_dados_completa == 0) {
 					navigator.notification.alert('Nao existe conexao com a Internet. Se deseja acessar o catalogo offline, voce precisa primeiro baixar os arquivos quando a conexao estiver disponivel', alertDismissed, 'Miss Trendy', 'OK');
-					$.mobile.changePage("#index");
+					$.mobile.changePage("#menu_novo");
 				}
 			}
 			
@@ -357,7 +375,7 @@
 			if (sistema_online == "NAO"){
 				if (carga_dados_completa == 0) {
 					navigator.notification.alert('Nao existe conexao com a Internet. Se deseja acessar o catalogo offline, voce precisa primeiro baixar os arquivos quando a conexao estiver disponivel', alertDismissed, 'Miss Trendy', 'OK');
-					$.mobile.changePage("#index");
+					$.mobile.changePage("#menu_novo");
 				}
 			}
 			
@@ -372,7 +390,7 @@
 			if (sistema_online == "NAO"){
 				if (carga_dados_completa == 0) {
 					navigator.notification.alert('Nao existe conexao com a Internet. Se deseja acessar o catalogo offline, voce precisa primeiro baixar os arquivos quando a conexao estiver disponivel', alertDismissed, 'Miss Trendy', 'OK');
-					$.mobile.changePage("#index");
+					$.mobile.changePage("#menu_novo");
 				}
 			}
 			
@@ -387,7 +405,7 @@
 			if (sistema_online == "NAO"){
 				if (carga_dados_completa == 0) {
 					navigator.notification.alert('Nao existe conexao com a Internet. Se deseja acessar o catalogo offline, voce precisa primeiro baixar os arquivos quando a conexao estiver disponivel', alertDismissed, 'Miss Trendy', 'OK');
-					$.mobile.changePage("#index");
+					$.mobile.changePage("#menu_novo");
 				}
 			}
 			
@@ -402,7 +420,7 @@
 			if (sistema_online == "NAO"){
 				if (carga_dados_completa == 0) {
 					navigator.notification.alert('Nao existe conexao com a Internet. Se deseja acessar o catalogo offline, voce precisa primeiro baixar os arquivos quando a conexao estiver disponivel', alertDismissed, 'Miss Trendy', 'OK');
-					$.mobile.changePage("#index");
+					$.mobile.changePage("#menu_novo");
 				}
 			}
 			
@@ -414,7 +432,8 @@
 		});
 
 		
-		$(document).on('pageinit', '#tela10', function(){ 
+		$(document).on('pageinit', '#tela10', function(){
+			ValidarNavegacao();
 			//alert('teste tela10');
 			//alert("codigo tela10:" + codigo_produto);
 			//Para nao travar o webservice
@@ -485,7 +504,8 @@
 		});	
 		
 		
-		$(document).on('pageshow', '#tela_detalhe', function(){ 
+		$(document).on('pageshow', '#tela_detalhe', function(){
+			ValidarNavegacao();
 			//Produto Selecionado
 			$.ajax({
 				type: "GET",
@@ -543,6 +563,7 @@
 
 		$(document).on('pageinit', '#tela11_B', function(){
         $(document).on('click', '#enviar_busca', function() { 
+			ValidarNavegacao();
 			var field_tag_css = {
 				"background-color": "#FFFF99"
 			  };
@@ -608,6 +629,7 @@
 		});	
 		
 		$(document).on('pageshow', '#comprar', function(){ 
+			ValidarNavegacao();
 			var parameters = $(this).data("url").split("?")[1];
 			var parameter = parameters.replace("produto=","");
 			codigo_produto = parameter;
@@ -656,6 +678,7 @@
 		});	
 
 		$(document).on('pageshow', '#remover', function(){ 
+			ValidarNavegacao();
 			var parameters = $(this).data("url").split("?")[1];
 			var parameter = parameters.replace("id=","");
 			var codigo_id = parameter;
@@ -697,7 +720,7 @@
 		
 		
 		$(document).on('pageshow', '#alterar', function(){ 
-			
+			ValidarNavegacao();
 			var s = $(this).data("url");
 			var idPart = s.split("&")[0];
 			var prodPart = s.split("&")[1];
@@ -746,7 +769,7 @@
 		});	
 		
 		$(document).on('pageshow', '#finalizar', function(){ 
-			
+			ValidarNavegacao();
 			var parameters = $(this).data("url").split("?")[1];
 			var parameter = parameters.replace("CPF=","");
 			var var_CPF = parameter;
@@ -793,7 +816,7 @@
 		
 		
 		$(document).on('pageshow', '#carrinho', function(){ 
-		
+			ValidarNavegacao();
 			$.ajax({
 				type: "GET",
 				url: "http://www.misstrendy.com.br/xml/xml_carrinho.php?CPF=44444444444",
@@ -871,6 +894,7 @@
 		
 		
 		$(document).on('pageshow', '#banner', function(){
+			ValidarNavegacao();
 			$.ajax({
 				type: "GET",
 				url: "http://www.misstrendy.com.br/xml/xml_banners.php",
@@ -917,6 +941,7 @@
 		});
 		
 		$(document).on('pageshow', '#tela11', function(){
+			ValidarNavegacao();	
 			//$("#searchField").autocomplete({
 			//	target: $('#suggestions'),
 			//	source: 'http://www.misstrendy.com.br/xml/json_produtos_busca.php',
